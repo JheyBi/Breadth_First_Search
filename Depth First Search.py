@@ -41,9 +41,7 @@ def busca_em_profundidade(grafo, origem, objetivo, visitado=None, parentes=None)
                 return parentes
             else:
                 visitado.append(vizinho)
-                borda.append(vizinho)
-
-    return busca_em_profundidade(grafo, borda.pop(), objetivo, visitado, parentes)
+                return busca_em_profundidade(grafo, vizinho, objetivo, visitado, parentes)
 
 origem = 'Arad'
 objetivo = 'Bucharest'
