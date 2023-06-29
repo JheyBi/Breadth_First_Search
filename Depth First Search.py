@@ -23,37 +23,36 @@ grafo = {
     'Neamt': ['Iasi']
 }
 
-
-def busca_em_profundidade(grafo, origem, objetivo, visitado=None, parentes=None):
+def dfs(grafo, inicial, objetivo, borda=None, visitado=None, parentes=None):
     if visitado == None:
-        visitado = []
+        visitado = [inicial]
 
     if parentes == None:
         parentes = {}
 
-    visitado.append(origem)
-    borda = [origem]
+    if borda == None:
+        borda = [inicial]
+    
     no = borda.pop()
+
+    if no == objetivo:
+        return parentes
+
     for vizinho in grafo[no]:
         if vizinho not in visitado:
+            borda.append(vizinho)
+            visitado.append(vizinho)
             parentes[vizinho] = no
-            if vizinho == objetivo:
-                return parentes
-            else:
-                visitado.append(vizinho)
-                return busca_em_profundidade(grafo, vizinho, objetivo, visitado, parentes)
+            
+            
+    return dfs(grafo, inicial, objetivo, borda, visitado, parentes)
 
 origem = 'Arad'
 objetivo = 'Bucharest'
-parentes = busca_em_profundidade(grafo, origem, objetivo)
+parentes = dfs(grafo, origem, objetivo)
 caminho = [objetivo]
 while origem != objetivo:
     caminho.insert(0, parentes[objetivo])
     objetivo = parentes[objetivo]
 
-print(caminho)
-
-
-                
-
-
+print("caminho: ", caminho)
