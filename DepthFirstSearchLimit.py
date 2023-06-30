@@ -23,22 +23,24 @@ grafo = {
     'Neamt': ['Iasi']
 }
 
-def dfs(grafo, origem, destino, visitado=None, parentes=None):
+def ldfs(grafo, origem, destino, limite,visitado=None, parentes=None, profundidade=0):
     if visitado == None:    
         visitado = [origem]
     if parentes == None:
         parentes = {}
+    if profundidade == limite:
+        return False
 
-    
     for vizinho in grafo[origem]:
         if vizinho not in visitado:
             visitado.append(vizinho)
             parentes[vizinho] = origem
             if vizinho == destino:
                 return parentes
-            resultado = dfs(grafo, vizinho, destino, visitado, parentes)
+            resultado = ldfs(grafo, vizinho, destino, limite, visitado, parentes, profundidade+1)
             if resultado != False:
                 return resultado
+            visitado.remove(vizinho)
     return False
 
 
@@ -46,9 +48,12 @@ def dfs(grafo, origem, destino, visitado=None, parentes=None):
 
 
 origem = 'Neamt'
-objetivo = 'Eforie'
-solucao = dfs(grafo, origem, objetivo)
+objetivo = 'Fagaras'
+solucao = ldfs(grafo, origem, objetivo, 5)
 caminho = [objetivo]
+if solucao == False:
+    print("Não achou!")
+    exit()
 while origem != objetivo:
     caminho.insert(0, solucao[objetivo])
     objetivo = solucao[objetivo]

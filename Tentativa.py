@@ -23,7 +23,7 @@ grafo = {
     'Neamt': ['Iasi']
 }
 
-def dfs_lim(grafo, origem, objetivo, limite, pilha=None, visitado=None, parentes=None, profundidade=0):
+def ldfs(grafo, origem, objetivo, limite, pilha=None, visitado=None, parentes=None, profundidade=0):
     
     if visitado == None:
         visitado = [origem]
@@ -55,18 +55,18 @@ def dfs_lim(grafo, origem, objetivo, limite, pilha=None, visitado=None, parentes
                 visitado.append(vizinho)
                 parentes[vizinho] = no[0]
                     
-        return dfs_lim(grafo, origem, objetivo, limite, pilha, visitado, parentes,  profundidade+1)
+        return ldfs(grafo, origem, objetivo, limite, pilha, visitado, parentes,  profundidade+1)
     
     # Se a profundidade for maior que o limite, remove o no da lista de visitados e continua a busca
     else:
         # Remove o no da lista de visitados
         visitado = list(filter(lambda x: x != no[0], visitado))
-        return dfs_lim(grafo, origem,  objetivo, limite, pilha, visitado, parentes,  profundidade+1)
+        return ldfs(grafo, origem,  objetivo, limite, pilha, visitado, parentes,  profundidade+1)
 
 
 origem = 'Arad'
 objetivo = 'Bucharest'
-parentes = dfs_lim(grafo, origem, objetivo,3)
+parentes = ldfs(grafo, origem, objetivo,3)
 caminho = [objetivo]
 if parentes == "ERROR: borda vazia":
     print("ERROR: borda vazia")
